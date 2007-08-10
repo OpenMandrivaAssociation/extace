@@ -14,17 +14,6 @@
 # Change to 1 if ALSA compiles cleanly again
 %define buildalsa 0
 
-# Needed for building generic packages
-# Not too sure if these are defined in non-Mandrake distributions:
-# %{_exec_prefix}/bin -> /usr/bin
-%define bindir_  %{_bindir}
-# ~/RPM/tmp
-%define tmppath_ %{_tmppath}
-# %{_prefix}/share -> /usr/share
-%define datadir_ %{_datadir}
-# %{_libdir}/menu -> %{_exec_prefix}/%{_lib}/menu -> /usr/lib/menu
-%define menudir_ %{_menudir}
-
 Summary:         %{summoss}
 Name:            %{name}
 Version:         %{version}
@@ -41,6 +30,9 @@ BuildRequires:   perl
 BuildRequires:   gtk-devel
 BuildRequires:   esound-devel
 BuildRequires:   imlib-devel
+BuildRequires:   gdkimlib-devel
+BuildRequires:   desktop-file-utils
+BuildRequires:   ImageMagick
 #Obsoletes:       %{alsaname}
 URL:		 http://extace.sf.net
 
@@ -61,7 +53,6 @@ This version is for users who don't use ALSA.
 %package alsa
 Summary:         %{summalsa}
 Group:           %{group}
-Requires:        gnome-libs >= 1.0.11, fftw, esound, alsa
 Obsoletes:       %{mainname}
 
 %description alsa
@@ -91,7 +82,7 @@ rm -fr $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
 
 %build
 # First build the normal/OSS version, and force to ignore ALSA even if present
-%configure --disable-alsa --disable-rpath
+%configure2_5x --disable-alsa --disable-rpath
 # Remove ALSA support from this build
 perl -pi -e 's|(^#define HAVE_ALSA.*$)|/* $1 */|' config.h
 for f in {extace,.}/Makefile ; do
@@ -103,7 +94,7 @@ done
 %if %{buildalsa}
 	# Now build the ALSA version.  ALSA support is built by default if available
 	cd $RPM_BUILD_DIR/%{alsaname}
-	%configure --disable-rpath
+	%configure2_5x --disable-rpath
 	%make
 %endif
 
@@ -113,43 +104,41 @@ rm -rf %buildroot
 # First install the OSS version
 %makeinstall
 
-mkdir -p %{buildroot}%{bindir_}
+mkdir -p %{buildroot}%{_bindir}
 
 # Use /etc/alternatives to have it point to the right binary
 # The "normal" one is named extace-oss, the alsa bin is called extace-alsa
-mv %{buildroot}%{bindir_}/%{name} %buildroot%{bindir_}/%{ossname}
+mv %{buildroot}%{_bindir}/%{name} %buildroot%{_bindir}/%{ossname}
 
 %if %{buildalsa}
 	# And now install the alsa version
 	cd $RPM_BUILD_DIR/%{alsaname}
 	%makeinstall
 	# Rename the binary so that it doesn't overwrite the pointer to /etc/alternatives
-	mv %{buildroot}%{bindir_}/%{name} %buildroot%{bindir_}/%{alsaname}
+	mv %{buildroot}%{_bindir}/%{name} %buildroot%{_bindir}/%{alsaname}
 %endif
 
-# Copy another nice utility.  This one creates a sine-wave.  Turn you phones to
-# LOUD when you use this.... :-]
-#cp extace/sine %buildroot%{bindir_}
+mkdir -p %buildroot%_datadir/applications/
+desktop-file-install --vendor='' \
+	--dir=%buildroot%_datadir/applications/ \
+	--add-category='Audio;AudioVideo;AudioVideoEditing' \
+	%buildroot%_datadir/gnome/apps/Multimedia/extace.desktop
 
-# Only in Mandrake:
-# Create menu entry for the package
-mkdir -p %{buildroot}%{menudir_}
-cat - << EOF > %buildroot%{menudir_}/%{name}
-?package(%{name}):command="%{bindir_}/%{name}-oss" \
-                 needs="X11" section="%{section}" title="%{title}" \
-                 icon="%{iconname}" longtitle="%{descr}"
-EOF
+rm -f %buildroot%_datadir/gnome/apps/Multimedia/extace.desktop
+
+mkdir -p %buildroot%_iconsdir/
+convert src/logo.xpm %buildroot%_iconsdir/%{name}.png
 
 %post
 # Update /etc/alternatives to point to the right binary file
-update-alternatives --install %{bindir_}/%{name} %{name} %{bindir_}/%{ossname} 100
+update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{ossname} 100
 
 # Only in Mandrake:
 # Update menus
 %{update_menus}
 
 %postun
-update-alternatives --remove %{name} %{bindir_}/%{ossname}
+update-alternatives --remove %{name} %{_bindir}/%{ossname}
 
 # Only in Mandrake:
 # Remove the menu entry
@@ -158,14 +147,14 @@ update-alternatives --remove %{name} %{bindir_}/%{ossname}
 %if %{buildalsa}
 	%post alsa
 	# Update /etc/alternatives to point to the right binary file
-	update-alternatives --install %{bindir_}/%{name} %{name} %{bindir_}/%{alsaname} 200
+	update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{alsaname} 200
 
 	# Only in Mandrake:
 	# Update menus
 	%{update_menus}
 
 	%postun alsa
-	update-alternatives --remove %{name} %{bindir_}/%{alsaname}
+	update-alternatives --remove %{name} %{_bindir}/%{alsaname}
 
 	# Only in Mandrake:
 	# Remove the menu entry
@@ -174,20 +163,16 @@ update-alternatives --remove %{name} %{bindir_}/%{ossname}
 
 %clean
 rm -rf %buildroot
-rm -fr $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
 
 %files
 %defattr(-,root,root,0755)
 %doc TODO AUTHORS CREDITS NEWS ChangeLog README
-#%{bindir_}/extace
-%{bindir_}/%{ossname}
-#%{bindir_}/sine
-%{datadir_}/gnome/apps/Multimedia/extace.desktop
-# Only Mandrake:
-%{menudir_}/%{name}
+%{_bindir}/%{ossname}
+%{_datadir}/applications/extace.desktop
+%{_iconsdir}/*.png
 
 %if %{buildalsa}
 %files alsa
 %defattr(-,root,root,0755)
-%{bindir_}/%{alsaname}
+%{_bindir}/%{alsaname}
 %endif
