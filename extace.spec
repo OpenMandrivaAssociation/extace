@@ -19,6 +19,7 @@ Name:            %{name}
 Version:         %{version}
 Release:         %{release}
 Source:          %{name}-%{version}.tar.bz2
+Patch0:		 extace-1.9.6-desktop-file.patch
 License:	 GPL
 Group:           %{group}
 BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
@@ -74,6 +75,7 @@ rm -fr $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
 
 # Unpack main source
 %setup -q
+%patch0 -p1
 
 %if %{buildalsa}
 	# Copy source tree to dir %{alsaname} for later building the alsa version
@@ -121,7 +123,6 @@ mv %{buildroot}%{_bindir}/%{name} %buildroot%{_bindir}/%{ossname}
 mkdir -p %buildroot%_datadir/applications/
 desktop-file-install --vendor='' \
 	--dir=%buildroot%_datadir/applications/ \
-	--add-category='Audio;AudioVideo;AudioVideoEditing' \
 	%buildroot%_datadir/gnome/apps/Multimedia/extace.desktop
 
 rm -f %buildroot%_datadir/gnome/apps/Multimedia/extace.desktop
