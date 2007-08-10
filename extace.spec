@@ -3,8 +3,8 @@
 %define mainname %{name}
 %define alsaname %{name}-alsa
 %define ossname	 %{name}-oss
-%define version  1.8.11
-%define release  %mkrel 4
+%define version  1.9.6
+%define release  %mkrel 1
 %define descr    %{title} - An Extace Waveform Viewer
 %define summalsa %{descr} with ALSA support
 %define summoss  %{descr} without ALSA support
@@ -34,7 +34,7 @@ License:	 GPL
 Group:           %{group}
 BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
 Requires:        gnome-libs >= 1.0.11, esound
-BuildRequires:   fftw2-devel
+BuildRequires:   fftw3-devel
 BuildRequires:   alsa-lib
 BuildRequires:   fileutils
 BuildRequires:   perl
