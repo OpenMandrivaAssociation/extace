@@ -26,7 +26,7 @@ BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
 Requires:        gnome-libs >= 1.0.11, esound
 BuildRequires:   fftw3-devel
 BuildRequires:   alsa-lib
-BuildRequires:   fileutils
+BuildRequires:   coreutils
 BuildRequires:   perl
 BuildRequires:   gtk-devel
 BuildRequires:   esound-devel
