@@ -134,14 +134,14 @@ convert src/logo.xpm %buildroot%_iconsdir/%{name}.png
 # Update /etc/alternatives to point to the right binary file
 update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{ossname} 100
 
-# Only in Mandrake:
+# Only in Mandriva:
 # Update menus
 %{update_menus}
 
 %postun
 update-alternatives --remove %{name} %{_bindir}/%{ossname}
 
-# Only in Mandrake:
+# Only in Mandriva:
 # Remove the menu entry
 %{clean_menus}
 
@@ -150,14 +150,14 @@ update-alternatives --remove %{name} %{_bindir}/%{ossname}
 	# Update /etc/alternatives to point to the right binary file
 	update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{alsaname} 200
 
-	# Only in Mandrake:
+	# Only in Mandriva:
 	# Update menus
 	%{update_menus}
 
 	%postun alsa
 	update-alternatives --remove %{name} %{_bindir}/%{alsaname}
 
-	# Only in Mandrake:
+	# Only in Mandriva:
 	# Remove the menu entry
 	%{clean_menus}
 %endif
