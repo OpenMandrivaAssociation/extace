@@ -22,6 +22,7 @@ Source:          %{name}-%{version}.tar.bz2
 Patch0:		 extace-1.9.6-desktop-file.patch
 License:	 GPL
 Group:           %{group}
+BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
 Requires:        gnome-libs >= 1.0.11, esound
 BuildRequires:   fftw3-devel
 BuildRequires:   alsa-lib
