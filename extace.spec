@@ -14,7 +14,7 @@
 # Change to 1 if ALSA compiles cleanly again
 %define buildalsa 0
 
-Summary:         %{summoss}
+Summary:         Visual sound display/analysis program
 Name:            %{name}
 Version:         %{version}
 Release:         %{release}
