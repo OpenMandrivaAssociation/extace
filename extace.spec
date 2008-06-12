@@ -136,14 +136,18 @@ update-alternatives --install %{_bindir}/%{name} %{name} %{_bindir}/%{ossname} 1
 
 # Only in Mandriva:
 # Update menus
+%if %mdkversion < 200900
 %{update_menus}
+%endif
 
 %postun
 update-alternatives --remove %{name} %{_bindir}/%{ossname}
 
 # Only in Mandriva:
 # Remove the menu entry
+%if %mdkversion < 200900
 %{clean_menus}
+%endif
 
 %if %{buildalsa}
 	%post alsa
@@ -152,14 +156,18 @@ update-alternatives --remove %{name} %{_bindir}/%{ossname}
 
 	# Only in Mandriva:
 	# Update menus
+%if %mdkversion < 200900
 	%{update_menus}
+%endif
 
 	%postun alsa
 	update-alternatives --remove %{name} %{_bindir}/%{alsaname}
 
 	# Only in Mandriva:
 	# Remove the menu entry
+%if %mdkversion < 200900
 	%{clean_menus}
+%endif
 %endif
 
 %clean
