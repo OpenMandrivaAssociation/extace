@@ -33,7 +33,7 @@ BuildRequires:   esound-devel
 BuildRequires:   imlib-devel
 BuildRequires:   gdkimlib-devel
 BuildRequires:   desktop-file-utils
-BuildRequires:   ImageMagick
+BuildRequires:   imagemagick
 #Obsoletes:       %{alsaname}
 URL:		 http://extace.sf.net
 
