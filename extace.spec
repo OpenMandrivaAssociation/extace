@@ -3,8 +3,8 @@
 %define mainname %{name}
 %define alsaname %{name}-alsa
 %define ossname	 %{name}-oss
-%define version  1.9.6
-%define release  %mkrel 5
+%define version  1.9.8
+%define release  %mkrel 1
 %define descr    %{title} - An Extace Waveform Viewer
 %define summalsa %{descr} with ALSA support
 %define summoss  %{descr} without ALSA support
@@ -20,7 +20,7 @@ Version:         %{version}
 Release:         %{release}
 Source:          %{name}-%{version}.tar.bz2
 Patch0:		 extace-1.9.6-desktop-file.patch
-License:	 GPL
+License:	 GPLv2
 Group:           %{group}
 BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
 Requires:        gnome-libs >= 1.0.11, esound
@@ -47,7 +47,7 @@ pointed flying landscape. All aspects of the display are fully configurable,
 even the axis placement. 
 
 %if %{buildalsa}
-This version is for users who don't use ALSA.
+This version is for users who dont use ALSA.
 %endif
 
 %if %{buildalsa}
@@ -69,11 +69,7 @@ This version is for users who use ALSA.
 %endif
 
 %prep
-# remove build directories.  better do it by hand as I later on move
-# them around
-rm -fr $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
-
-# Unpack main source
+rm -rf $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
 %setup -q
 %patch0 -p1
 
