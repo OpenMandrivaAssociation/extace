@@ -3,7 +3,7 @@
 %define mainname %{name}
 %define alsaname %{name}-alsa
 %define ossname	 %{name}-oss
-%define version  1.9.8
+%define version  1.9.9
 %define release  %mkrel 1
 %define descr    %{title} - An Extace Waveform Viewer
 %define summalsa %{descr} with ALSA support
