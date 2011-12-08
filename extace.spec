@@ -69,13 +69,13 @@ This version is for users who use ALSA.
 %endif
 
 %prep
-rm -rf $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
+rm -rf %{_builddir}/%{name}-%{version} %{_builddir}/%{alsaname}
 %setup -q
 %patch0 -p1
 
 %if %{buildalsa}
 	# Copy source tree to dir %{alsaname} for later building the alsa version
-	cp -a $RPM_BUILD_DIR/%{name}-%{version} $RPM_BUILD_DIR/%{alsaname}
+	cp -a %{_builddir}/%{name}-%{version} %{_builddir}/%{alsaname}
 %endif
 
 %build
@@ -91,7 +91,7 @@ done
 
 %if %{buildalsa}
 	# Now build the ALSA version.  ALSA support is built by default if available
-	cd $RPM_BUILD_DIR/%{alsaname}
+	cd %{_builddir}/%{alsaname}
 	%configure2_5x --disable-rpath
 	%make
 %endif
@@ -110,7 +110,7 @@ mv %{buildroot}%{_bindir}/%{name} %buildroot%{_bindir}/%{ossname}
 
 %if %{buildalsa}
 	# And now install the alsa version
-	cd $RPM_BUILD_DIR/%{alsaname}
+	cd %{_builddir}/%{alsaname}
 	%makeinstall
 	# Rename the binary so that it doesn't overwrite the pointer to /etc/alternatives
 	mv %{buildroot}%{_bindir}/%{name} %buildroot%{_bindir}/%{alsaname}
