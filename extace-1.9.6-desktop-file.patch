@@ -1,0 +1,22 @@
+--- extace-1.9.6/src/extace.desktop.old	2007-08-10 21:17:48.000000000 +0800
++++ extace-1.9.6/src/extace.desktop	2007-08-10 21:21:02.000000000 +0800
+@@ -1,18 +1,8 @@
+ [Desktop Entry]
+ Name=Extace Waveform Display
+-Name[es]=Extace
+-Name[no]=Extace Bølgeformvisning
+-Name[fr]=Extace Waveform
+-Name[ko]=ÀÍ½ºÅ×ÀÌ½º
+-Name[pt]=Extace
+ Comment=Audio Waveform Monitor
+-Comment[es]Visualización gráfica de ondas sonoras
+-Comment[no]=Lydbølgemonitor
+-Comment[fr]=Visualisation graphique d'ondes sonores
+-Comment[ko]=¿Àµð¿À ¿þÀÌºê º¸±â
+-Comment[pt]=Visualização gráfica das ondas sonoras
+ Exec=extace
+ Icon=extace.png
+-Info=Audio Waveform Monitor
+ Terminal=0
+ Type=Application
++Categories=Audio;AudioVideo;AudioVideoEditing;
