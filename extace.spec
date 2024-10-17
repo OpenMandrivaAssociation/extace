@@ -35,7 +35,7 @@ BuildRequires:   gdkimlib-devel
 BuildRequires:   desktop-file-utils
 BuildRequires:   imagemagick
 #Obsoletes:       %{alsaname}
-URL:		 http://extace.sf.net
+URL:		 https://extace.sf.net
 
 %description
 eXtace is a visual sound display/analysis program for the Gnome Desktop
