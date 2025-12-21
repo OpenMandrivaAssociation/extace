@@ -24,6 +24,11 @@ License:	 GPL
 Group:           %{group}
 BuildRoot:       %{tmppath_}/%{name}-%{version}-%{release}-buildroot
 Requires:        gnome-libs >= 1.0.11, esound
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:   fftw3-devel
 BuildRequires:   alsa-lib
 BuildRequires:   coreutils
